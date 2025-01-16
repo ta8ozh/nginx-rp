@@ -30,7 +30,7 @@ func main() {
 
 		key, value := parts[0], parts[1]
 
-		if !strings.HasPrefix(key, "APP_") {
+		if strings.HasPrefix(key, "APP_") {
 
 			envParts := strings.SplitN(value, ":", 3)
 			if len(envParts) != 3 {
@@ -52,8 +52,6 @@ func main() {
 			}
 	
 			fmt.Printf("Created config for Domain: %s, Host: %s, Port: %s\n", domain, host, port)
-		} else {
-			fmt.Printf("Invalid format for %s environment variable\n", key)
 		}
 	}
 }

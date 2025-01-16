@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 set -eo pipefail  # Exit on error, undefined var, and pipeline failures
 
 echo "Generating Nginx configuration..."

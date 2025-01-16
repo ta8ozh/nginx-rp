@@ -11,7 +11,7 @@ COPY main.go .
 RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o conf_generator main.go
 
 # Use a minimal nginx image for the final container
-FROM nginx:latest
+FROM nginx:stable-alpine
 
 # Set the working directory inside the container
 WORKDIR /app
