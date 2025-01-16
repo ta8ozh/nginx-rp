@@ -11,16 +11,19 @@ COPY main.go .
 RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o conf_generator main.go
 
 # Use a minimal nginx image for the final container
-FROM nginx:stable-alpine
+FROM nginx:latest
+
+# Set the working directory inside the container
+WORKDIR /app
 
 # Copy only the required files from the builder stage
-COPY --from=builder /app/conf_generator /conf_generator
+COPY --from=builder /app/conf_generator .
 COPY nginx.conf.template .
-COPY ./start.sh /start.sh
+COPY ./start.sh .
 
 # Configure permissions and clean up in a single layer
-RUN chmod +x /start.sh && \
-    chown -R nginx:nginx /conf_generator /start.sh
+RUN chmod +x start.sh && \
+    chown -R nginx:nginx conf_generator start.sh nginx.conf.template
 
 # Expose the default Nginx port
 EXPOSE 80
@@ -29,4 +32,4 @@ EXPOSE 80
 STOPSIGNAL SIGQUIT
 
 # Run the custom script as the entrypoint
-ENTRYPOINT ["/start.sh"]
+ENTRYPOINT ["./start.sh"]

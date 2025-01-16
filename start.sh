@@ -2,7 +2,7 @@
 set -eo pipefail  # Exit on error, undefined var, and pipeline failures
 
 echo "Generating Nginx configuration..."
-/conf_generator
+./conf_generator
 
 echo "Checking Nginx configuration..."
 if ! nginx -t; then
